@@ -42,9 +42,7 @@ class Receiver:
         return SI, SQ
 
     def cross_correlation(x, y):
-        a = sum(y[k]*x[k-n])
-        sum(x[k-n]*x[k-n])
-        return 0
+        np.correlate(x, y, mode="valid")
     
 transmitter = Transmitter(2000, 1, 10, 20)
 transmit = transmitter.modulate()
