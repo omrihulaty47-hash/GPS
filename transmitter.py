@@ -1,3 +1,4 @@
+import math
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -5,11 +6,9 @@ class Transmitter:
     
     def __init__(self, N, Tch, freq, M):
         code = np.zeros(1023)
-        
         start_state = 1 << 9 | 1
         lfsr = start_state
         period = 0
-
 
         while True:
             bit = (((lfsr & 1) + ((lfsr & 8) >> 3)) % 2)
@@ -22,7 +21,6 @@ class Transmitter:
 
         self.N = N
         self.Tch = Tch #ns
-
 
         self.freq = freq
         self.fc = 1/self.Tch
@@ -40,7 +38,6 @@ class Transmitter:
         carrier_wave = np.sqrt(2*self.Pr) * np.cos(2*np.pi*self.freq*self.t)
         transmit = carrier_wave * msg
         return transmit
-    
 
 # transmitter = Transmitter(2000, 1, 10, 20)
 # transmit = transmitter.modulate()
