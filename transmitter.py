@@ -26,3 +26,8 @@ class Transmitter:
         carrier_wave = np.sqrt(2*self.Pr) * np.cos(2*np.pi*self.freq*self.t)
         transmit = carrier_wave * msg
         return transmit
+    
+    def delay_transmit(signal, t):
+        signal = np.roll(signal, shift=t)
+        signal[1:t] = 0
+        return signal

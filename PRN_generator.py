@@ -85,7 +85,6 @@ class PRN:
         # create sequence
         for i in range(1023):
             g1 = PRN.shift(G1, np.array([3,10]), np.array([10]))
-            print(G1)
             g2 = PRN.shift(G2, np.array([2,3,6,8,9,10]), np.array(PRN.SV[sv])) # <- sat chosen here from table
             
             # modulo 2 add and append to the code
