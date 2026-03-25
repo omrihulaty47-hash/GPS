@@ -49,22 +49,23 @@ class PRN:
         """
         
         # calculate output
-        out = [register[i-1] for i in output]
+        out = register[output-1]
         if len(out) > 1:
             out = sum(out) % 2
         else:
             out = out[0]
             
         # modulo 2 add feedback
-        fb = sum([register[i-1] for i in feedback]) % 2
+        fb = sum(register[feedback-1]) % 2
         
         # shift to the right
         for i in reversed(range(len(register[1:]))):
-            register[i+1] = register[i]
-            
+            register[i+1] = register[i]         
         # put feedback in position 1
         register[0] = fb
         
+        # print(register)
+
         return out
     
     def prn(sv):
@@ -76,18 +77,19 @@ class PRN:
         """
         
         # init registers
-        G1 = [1 for i in range(10)]
-        G2 = [1 for i in range(10)]
+        G1 = np.ones(10)
+        G2 = np.ones(10)
 
-        ca = [] # stuff output in here
-        
+        ca = np.zeros(1023) # stuff output in here
+
         # create sequence
         for i in range(1023):
-            g1 = PRN.shift(G1, [3,10], [10])
-            g2 = PRN.shift(G2, [2,3,6,8,9,10], PRN.SV[sv]) # <- sat chosen here from table
+            g1 = PRN.shift(G1, np.array([3,10]), np.array([10]))
+            print(G1)
+            g2 = PRN.shift(G2, np.array([2,3,6,8,9,10]), np.array(PRN.SV[sv])) # <- sat chosen here from table
             
             # modulo 2 add and append to the code
-            ca.append((g1 + g2) % 2)
+            ca[i] = (g1 + g2) % 2
 
         # return C/A code!
         return ca

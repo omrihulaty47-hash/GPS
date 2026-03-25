@@ -1,23 +1,12 @@
-import math
 import numpy as np
 import matplotlib.pyplot as plt
+from PRN_generator import PRN 
 
 class Transmitter:
     
-    def __init__(self, N = 1000, Tch = 1, freq = 1000, M = 2000):
-        code = np.zeros(1023)
-        start_state = 1 << 9 | 1
-        lfsr = start_state
-        period = 0
-
-        while True:
-            bit = (((lfsr & 1) + ((lfsr & 8) >> 3)) % 2)
-            code[period] = lfsr & 1
-            lfsr = (lfsr >> 1) | (bit << 9)
-            period += 1
-            if lfsr == start_state:
-                # print(period)
-                break
+    def __init__(self, N = 1000, Tch = 1, freq = 1000, M = 2000, sv=1):
+        
+        code = PRN.prn(sv)
 
         self.N = N
         self.Tch = Tch #ns
@@ -30,7 +19,6 @@ class Transmitter:
         self.Pr = 1
 
         self.msg = np.resize(np.repeat(code,self.M), int(self.N/self.Ts))
-        # print(len(self.msg))
 
     def modulate(self):
         msg = self.msg
@@ -38,8 +26,3 @@ class Transmitter:
         carrier_wave = np.sqrt(2*self.Pr) * np.cos(2*np.pi*self.freq*self.t)
         transmit = carrier_wave * msg
         return transmit
-
-# transmitter = Transmitter(2000, 1, 10, 20)
-# transmit = transmitter.modulate()
-# plt.plot(transmitter.t[:1000], transmit[:1000])
-# plt.show()

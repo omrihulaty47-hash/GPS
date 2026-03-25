@@ -1,4 +1,5 @@
 from transmitter import *
+import math
 
 c = 300000 #light second in km
 
