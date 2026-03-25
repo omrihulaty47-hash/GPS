@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 class Transmitter:
     
-    def __init__(self, N, Tch, freq, M):
+    def __init__(self, N = 1000, Tch = 1, freq = 1000, M = 2000):
         code = np.zeros(1023)
         start_state = 1 << 9 | 1
         lfsr = start_state
